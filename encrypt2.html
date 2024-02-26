@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subblock Encryption</title>
+    <style>
+        /* Styles Go Here */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        #encryptedText {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Subblock Encryption</h1>
+        <textarea id="inputText" placeholder="Enter your plaintext here..."></textarea>
+        <button onclick="encryptData()">Encrypt</button>
+        <div id="encryptedText"></div>
+    </div>
+
+    <script>
+        // JavaScript Goes Here
+        function encryptData() {
+            var plaintext = document.getElementById('inputText').value;
+            var encryptedText = encryptSubblock(plaintext);
+            document.getElementById('encryptedText').textContent = encryptedText;
+        }
+
+        function encryptSubblock(plaintext) {
+            // Define a 4x4 subblock (16 characters)
+            var subblock = plaintext.substring(0, 16);
+            
+            // Apply row permutation
+            subblock = permuteRows(subblock);
+            
+            // Apply column permutation
+            subblock = permuteColumns(subblock);
+            
+            // Return encrypted subblock
+            return subblock;
+        }
+
+        function permuteRows(subblock) {
+            // Simple example: reverse the rows
+            return subblock.match(/.{1,4}/g).reverse().join('');
+        }
+
+        function permuteColumns(subblock) {
+            // Simple example: transpose the columns
+            var columns = [];
+            for (var i = 0; i < 4; i++) {
+                var column = '';
+                for (var j = 0; j < 4; j++) {
+                    column += subblock[j * 4 + i];
+                }
+                columns.push(column);
+            }
+            return columns.join('');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Read RGB Image</title>
+</head>
+<body>
+    <canvas id="imageCanvas" width="256" height="256" style="border:1px solid black;"></canvas>
+    <script>
+        var canvas = document.getElementById('imageCanvas');
+        var ctx = canvas.getContext('2d');
+        var img = new Image();
+
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0, 256, 256); // Draw the image on the canvas
+            
+            // Loop through the image in 16x16 blocks
+            for (var y = 0; y < 256; y += 16) {
+                for (var x = 0; x < 256; x += 16) {
+                    var blockImageData = ctx.getImageData(x, y, 16, 16); // Get the image data for the current block
+                    var pixels = blockImageData.data; // Pixel data array
+
+                    // Access pixel data for the current block
+                    for (var i = 0; i < pixels.length; i += 4) {
+                        var red = pixels[i]; // Red channel value
+                        var green = pixels[i + 1]; // Green channel value
+                        var blue = pixels[i + 2]; // Blue channel value
+                        // Do something with the RGB values
+                    }
+                }
+            }
+        };
+
+        img.src = 'a.jpg'; // Replace 'your_image.jpg' with the path to your image
+    </script>
+</body>
+</html>
